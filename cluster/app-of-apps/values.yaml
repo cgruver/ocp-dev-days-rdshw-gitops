@@ -1,6 +1,6 @@
 gitops:
-  repoURL: https://github.com/rhpds/ocp-dev-days-rdshw-gitops.git
-  targetRevision: main
+  repoURL: https://github.com/cgruver/ocp-dev-days-rdshw-gitops.git
+  targetRevision: clg-dev
 
 argocd:
   namespace: openshift-gitops
