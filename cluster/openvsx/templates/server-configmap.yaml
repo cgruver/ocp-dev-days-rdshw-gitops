@@ -20,7 +20,7 @@ data:
       profiles:
         include: ovsx
       autoconfigure:
-        exclude:
+        exclude: 
           - org.jobrunr.spring.autoconfigure.storage.JobRunrElasticSearchStorageAutoConfiguration
           - org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinAutoConfiguration
       cache:
@@ -33,7 +33,7 @@ data:
       flyway:
         baseline-on-migrate: true
         baseline-version: 0.1.0
-        baseline-description: JobRunr tables
+        baseline-description: JobRunr tables    
       jpa:
         open-in-view: false
         properties:
@@ -46,12 +46,12 @@ data:
         jdbc:
           initialize-schema: never
       security:
-        oauth2:
-          client:
-            registration:
-              github:
-                client-id: foo
-                client-secret: foo
+          oauth2:
+            client:
+              registration:
+                github:
+                  client-id: foo
+                  client-secret: foo
     management:
       health:
         probes:
