@@ -1,0 +1,23 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: ubi9
+  namespace: imported-images
+  labels:
+    {{- include "cekit-builder.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - annotations: null
+    from:
+      kind: DockerImage
+      name: registry.access.redhat.com/ubi9:9.6
+    generation: 1
+    importPolicy:
+      importMode: Legacy
+    name: "9.6"
+    referencePolicy:
+      type: Source
