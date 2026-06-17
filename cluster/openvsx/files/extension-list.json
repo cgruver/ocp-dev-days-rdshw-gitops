@@ -84,10 +84,40 @@
       "id": "redhat.devspaces-copilot-chat-integration"
     },
     {
-      "id": "continue.continue"
+      "id": "saoudrizwan.claude-dev"
     },
     {
       "id": "vscode.html-language-features"
+    },
+    {
+      "id": "ms-python.python"
+    },
+    {
+      "id": "ms-python.debugpy"
+    },
+    {
+      "id": "ms-toolsai.jupyter"
+    },
+    {
+      "id": "ms-toolsai.vscode-jupyter-cell-tags"
+    },
+    {
+      "id": "ms-toolsai.jupyter-keymap"
+    },
+    {
+      "id": "ms-toolsai.jupyter-renderers"
+    },
+    {
+      "id": "ms-toolsai.vscode-jupyter-slideshow"
+    },
+    {
+      "id": "reditorsupport.r"
+    },
+    {
+      "id": "rdebugger.r-debugger"
+    },
+    {
+      "id": "reditorsupport.r-syntax"
     }
   ]
 }
