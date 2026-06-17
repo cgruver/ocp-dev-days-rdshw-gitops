@@ -20,7 +20,7 @@ data:
       profiles:
         include: ovsx
       autoconfigure:
-        exclude:
+        exclude: 
           - org.jobrunr.spring.autoconfigure.storage.JobRunrElasticSearchStorageAutoConfiguration
           - org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinAutoConfiguration
       cache:

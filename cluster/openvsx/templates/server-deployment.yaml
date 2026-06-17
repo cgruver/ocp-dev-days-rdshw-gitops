@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: open-vsx-server
-          image: image-registry.openshift-image-registry.svc:5000/{{ .Release.Namespace }}/open-vsx-server:latest
+          image: registry.redhat.io/devspaces/openvsx-rhel9:3.27
           imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.server.port }}
@@ -67,7 +67,7 @@ spec:
             - name: open-vsx-data
               mountPath: /extensions
             - name: open-vsx-config
-              mountPath: /openvsx-server/config/
+              mountPath: /home/openvsx/server/config/
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
