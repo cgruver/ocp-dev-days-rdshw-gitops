@@ -121,8 +121,8 @@ function fetchDependencies() {
   num_deps=$(echo "${ext_release}" | jq '.dependencies | length')
   while [[ ${index} -lt ${num_deps} ]]
   do
-    dep_namespace=$(echo "${ext_release}" | jq -r ".dependencies.[${index}].namespace")
-    dep_extension=$(echo "${ext_release}" | jq -r ".dependencies.[${index}].extension")
+    dep_namespace=$(echo "${ext_release}" | jq -r ".dependencies[${index}].namespace")
+    dep_extension=$(echo "${ext_release}" | jq -r ".dependencies[${index}].extension")
     dep_id="${dep_namespace}.${dep_extension}"
     dep_release=$(getCompatibleRelease ${dep_id})
     dep_url=$(echo "${dep_release}" | jq -r '.files.download')
@@ -141,18 +141,18 @@ function download() {
 
   while [[ ${index} -lt ${num_ext} ]]
   do
-    ext_id=$(jq -r ".extensions.[${index}].id" ${EXTENSION_FILE})
-    has_url=$(jq ".extensions.[${index}] | has(\"url\")" ${EXTENSION_FILE})
+    ext_id=$(jq -r ".extensions[${index}].id" ${EXTENSION_FILE})
+    has_url=$(jq ".extensions[${index}] | has(\"url\")" ${EXTENSION_FILE})
     if [[ ${has_url} == "true" ]]
     then
-      ext_url=$(jq -r ".extensions.[${index}].url" ${EXTENSION_FILE})
+      ext_url=$(jq -r ".extensions[${index}].url" ${EXTENSION_FILE})
       downloadExtension ${ext_url} ${ext_id//./-}.vsix $(echo ${ext_id} | cut -d"." -f1)
       continue
     fi
-    has_version=$(jq ".extensions.[${index}] | has(\"version\")" ${EXTENSION_FILE})
+    has_version=$(jq ".extensions[${index}] | has(\"version\")" ${EXTENSION_FILE})
     if [[ ${has_version} == "true" ]]
     then
-      ext_version=$(jq -r ".extensions.[${index}].version" ${EXTENSION_FILE})
+      ext_version=$(jq -r ".extensions[${index}].version" ${EXTENSION_FILE})
       ext_data=$(curl -X GET "https://open-vsx.org/api/v2/-/query?extensionId=${ext_id}&targetPlatform=${ARCH}&extensionVersion=${ext_version}&offset=0" -H 'accept: application/json')
       count=$(echo "${ext_data}" | jq -r '.totalSize')
       if [[ ${count} -eq 0 ]]
@@ -165,7 +165,7 @@ function download() {
           continue
         fi
       fi
-      ext_release=$(echo "${ext_data}" | jq -c ".extensions.[0]")
+      ext_release=$(echo "${ext_data}" | jq -c ".extensions[0]")
     else
       ext_release=$(getCompatibleRelease ${ext_id})
     fi
