@@ -197,6 +197,9 @@ checkLocalVSX
 for i in "$@"
 do
   case $i in
+    -f=*|--file=*)
+      EXTENSION_FILE="${i#*=}"
+    ;;
     -d|--download)
       download
     ;;
