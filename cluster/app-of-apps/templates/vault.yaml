@@ -35,6 +35,11 @@ spec:
             adminPassword: {{ .Values.vault.secrets.sonarqube.adminPassword | quote }}
           kafka:
             userPassword: {{ .Values.vault.secrets.kafka.userPassword | quote }}
+          keycloak:
+            clientId: {{ .Values.vault.secrets.keycloak.clientId | quote }}
+            clientSecret: {{ .Values.vault.secrets.keycloak.clientSecret | quote }}
+            pluginClientId: {{ .Values.vault.secrets.keycloak.pluginClientId | quote }}
+            pluginClientSecret: {{ .Values.vault.secrets.keycloak.pluginClientSecret | quote }}
   syncPolicy:
     automated: {}
     syncOptions:
