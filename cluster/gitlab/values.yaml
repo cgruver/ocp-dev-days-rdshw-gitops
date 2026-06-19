@@ -42,11 +42,11 @@ gitlab:
     - name: parasol
       repo:
         - name: parasol-insurance
-          url: https://github.com/App-Platform-ROI-Summit-Lab/parasol-insurance.git
+          url: https://github.com/openshift-dev-days/parasol-insurance.git
         - name: parasol-insurance-manifests
-          url: https://github.com/App-Platform-ROI-Summit-Lab/parasol-insurance-manifests.git
+          url: https://github.com/openshift-dev-days/parasol-insurance-manifests.git
         - name: devfiles
-          url: https://github.com/App-Platform-ROI-Summit-Lab/devfiles.git
+          url: https://github.com/openshift-dev-days/devfiles.git
       users:
         - id: dev1
         - id: dev2

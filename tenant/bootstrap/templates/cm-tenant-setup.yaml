@@ -188,72 +188,101 @@ data:
             pod: "{{ "{{" }} vault_pod {{ "}}" }}"
             command: 'vault kv put kv/secrets/tenants/{{ "{{" }} tenant_username {{ "}}" }}/quay/auth value={{ "{{" }} quay_auth | b64encode {{ "}}" }}'
 
-        - name: Fork parasol-insurance to tenant user namespace
+        - name: Set git credentials
+          ansible.builtin.command: git config --global credential.helper store
+
+        - name: Store git credentials for GitLab
+          ansible.builtin.copy:
+            dest: ~/.git-credentials
+            content: "https://root:{{ "{{" }} root_token {{ "}}" }}@{{ "{{" }} gitlab_host {{ "}}" }}"
+            mode: '0600'
+
+        - name: Git config user
+          ansible.builtin.command: "{{ "{{" }} item {{ "}}" }}"
+          loop:
+            - git config --global user.email "{{ "{{" }} tenant_username {{ "}}" }}@rhdemo.com"
+            - git config --global user.name "{{ "{{" }} tenant_username {{ "}}" }}"
+
+        - name: Create tenant projects in GitLab
           ansible.builtin.uri:
-            url: https://{{ "{{" }} gitlab_host {{ "}}" }}/api/v4/projects/parasol%2Fparasol-insurance/fork
+            url: https://{{ "{{" }} gitlab_host {{ "}}" }}/api/v4/projects
             method: POST
-            body_format: form-urlencoded
+            body_format: json
             body:
-              namespace_path: "{{ "{{" }} tenant_username {{ "}}" }}"
-              name: parasol-insurance
-              path: parasol-insurance
+              name: "{{ "{{" }} item {{ "}}" }}"
+              path: "{{ "{{" }} item {{ "}}" }}"
+              namespace_id: "{{ "{{" }} tenant_user_id {{ "}}" }}"
+              initialize_with_readme: false
+              visibility: internal
             headers:
               PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
             validate_certs: false
             status_code:
               - 201
-              - 409
-          register: r_fork_parasol
-          retries: 10
+              - 400
+          loop:
+            - parasol-insurance
+            - parasol-insurance-manifests
+          register: r_create_projects
+          retries: 5
           delay: 5
-          until: r_fork_parasol.status in [201, 409]
 
-        - name: Fork parasol-insurance-manifests to tenant user namespace
-          ansible.builtin.uri:
-            url: https://{{ "{{" }} gitlab_host {{ "}}" }}/api/v4/projects/parasol%2Fparasol-insurance-manifests/fork
-            method: POST
-            body_format: form-urlencoded
-            body:
-              namespace_path: "{{ "{{" }} tenant_username {{ "}}" }}"
-              name: parasol-insurance-manifests
-              path: parasol-insurance-manifests
-            headers:
-              PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
-            validate_certs: false
-            status_code:
-              - 201
-              - 409
-          register: r_fork_manifests
-          retries: 10
+        - name: Import source repos into tenant projects
+          ansible.builtin.shell: |
+            set -e
+            rm -rf /tmp/{{ "{{" }} item {{ "}}" }}
+            git clone --bare https://{{ "{{" }} gitlab_host {{ "}}" }}/parasol/{{ "{{" }} item {{ "}}" }}.git /tmp/{{ "{{" }} item {{ "}}" }}
+            cd /tmp/{{ "{{" }} item {{ "}}" }}
+            git push --mirror https://{{ "{{" }} gitlab_host {{ "}}" }}/{{ "{{" }} tenant_username {{ "}}" }}/{{ "{{" }} item {{ "}}" }}.git
+            rm -rf /tmp/{{ "{{" }} item {{ "}}" }}
+          environment:
+            GIT_SSL_NO_VERIFY: "true"
+          loop:
+            - parasol-insurance
+            - parasol-insurance-manifests
+          register: r_import_repos
+          retries: 5
           delay: 5
-          until: r_fork_manifests.status in [201, 409]
+          until: r_import_repos is not failed
 
-        - name: Wait for parasol-insurance fork to complete
-          ansible.builtin.uri:
-            url: https://{{ "{{" }} gitlab_host {{ "}}" }}/api/v4/projects/{{ "{{" }} tenant_username {{ "}}" }}%2Fparasol-insurance
-            method: GET
-            headers:
-              PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
-            validate_certs: false
-            status_code: 200
-          register: r_fork_parasol_check
-          retries: 10
-          delay: 10
-          until:
-            - r_fork_parasol_check.status == 200
-            - r_fork_parasol_check.json.import_status is not defined or r_fork_parasol_check.json.import_status == 'finished' or r_fork_parasol_check.json.import_status == 'none'
+        - name: Clone tenant parasol-insurance to template catalog-info
+          ansible.builtin.git:
+            repo: https://{{ "{{" }} gitlab_host {{ "}}" }}/{{ "{{" }} tenant_username {{ "}}" }}/parasol-insurance.git
+            dest: /tmp/parasol-insurance-{{ "{{" }} tenant_username {{ "}}" }}
+            version: main
+          environment:
+            GIT_SSL_NO_VERIFY: "true"
+          register: r_clone_tenant
+          retries: 5
+          delay: 5
+          until: r_clone_tenant is not failed
 
-        - name: Wait for parasol-insurance-manifests fork to complete
-          ansible.builtin.uri:
-            url: https://{{ "{{" }} gitlab_host {{ "}}" }}/api/v4/projects/{{ "{{" }} tenant_username {{ "}}" }}%2Fparasol-insurance-manifests
-            method: GET
-            headers:
-              PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
-            validate_certs: false
-            status_code: 200
-          register: r_fork_manifests_check
-          retries: 10
-          delay: 10
-          until:
-            - r_fork_manifests_check.status == 200
-            - r_fork_manifests_check.json.import_status is not defined or r_fork_manifests_check.json.import_status == 'finished' or r_fork_manifests_check.json.import_status == 'none'
+        - name: Rename catalog-info template
+          ansible.builtin.command:
+            chdir: /tmp/parasol-insurance-{{ "{{" }} tenant_username {{ "}}" }}
+            cmd: mv catalog-info.yaml.template catalog-info.yaml
+
+        - name: Replace template variables in catalog-info.yaml
+          ansible.builtin.replace:
+            path: /tmp/parasol-insurance-{{ "{{" }} tenant_username {{ "}}" }}/catalog-info.yaml
+            regexp: '\{\{\s*{{ "{{" }} item.key {{ "}}" }}\s*\}\}'
+            replace: '{{ "{{" }} item.value {{ "}}" }}'
+          loop:
+            - key: user_guid
+              value: "{{ "{{" }} tenant_username {{ "}}" }}"
+            - key: cluster_subdomain
+              value: "{{ $.Values.cluster.subdomain }}"
+
+        - name: Commit and push catalog-info.yaml
+          ansible.builtin.shell: |
+            cd /tmp/parasol-insurance-{{ "{{" }} tenant_username {{ "}}" }}
+            git add -A
+            git commit -m "chore: configure catalog-info for {{ "{{" }} tenant_username {{ "}}" }}"
+            git push origin main
+          environment:
+            GIT_SSL_NO_VERIFY: "true"
+
+        - name: Clean up cloned repo
+          ansible.builtin.file:
+            path: /tmp/parasol-insurance-{{ "{{" }} tenant_username {{ "}}" }}
+            state: absent
