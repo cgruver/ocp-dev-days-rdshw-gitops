@@ -97,7 +97,3 @@ sonarqube:
 developerHub:
   name: developer-hub
   namespace: rhdh
-
-vault:
-  name: vault
-  namespace: vault
