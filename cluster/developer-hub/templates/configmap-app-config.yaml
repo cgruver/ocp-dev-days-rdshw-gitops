@@ -77,6 +77,9 @@ data:
               resolvers:
                 - resolver: preferredUsernameMatchingUserEntityName
 
+    permission:
+      enabled: true
+
     backend:
       baseUrl: https://{{ .Values.backstage.host }}
       listen:
