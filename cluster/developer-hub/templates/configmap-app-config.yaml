@@ -79,6 +79,10 @@ data:
 
     permission:
       enabled: true
+      rbac:
+        admin:
+          users:
+            - name: user:default/admin
 
     backend:
       baseUrl: https://{{ .Values.backstage.host }}
