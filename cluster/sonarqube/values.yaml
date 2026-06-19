@@ -31,3 +31,6 @@ postgresql:
   database: sonar
   username: sonaruser
   password: ""
+
+vault:
+  namespace: vault
