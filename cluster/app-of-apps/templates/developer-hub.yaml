@@ -43,7 +43,7 @@ spec:
         kubernetes:
           apiUrl: {{ .Values.cluster.apiServer }}
         keycloak:
-          host: keycloak-keycloak.{{ .Values.cluster.subdomain }}
+          host: sso.{{ .Values.cluster.subdomain }}
           realm: sso
           loginRealm: master
         sonarqube:
