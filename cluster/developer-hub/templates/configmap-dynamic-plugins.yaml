@@ -117,7 +117,7 @@ data:
           app:
             sidebar:
               search: false
-              settings: false
+              settings: true
           dynamicPlugins:
             frontend:
               default.main-menu-items:
