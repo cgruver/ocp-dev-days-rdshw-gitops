@@ -286,3 +286,61 @@ data:
           ansible.builtin.file:
             path: /tmp/parasol-insurance-{{ "{{" }} tenant_username {{ "}}" }}
             state: absent
+
+        - name: Get Keycloak admin credentials
+          kubernetes.core.k8s_info:
+            api_version: v1
+            kind: Secret
+            name: keycloak-initial-admin
+            namespace: keycloak
+          register: r_keycloak_admin
+          retries: 10
+          delay: 5
+          until:
+            - r_keycloak_admin.resources | length > 0
+
+        - name: Get Keycloak admin token
+          ansible.builtin.uri:
+            url: https://sso.{{ $.Values.cluster.subdomain }}/realms/master/protocol/openid-connect/token
+            method: POST
+            body_format: form-urlencoded
+            body:
+              client_id: admin-cli
+              username: '{{ "{{" }} r_keycloak_admin.resources[0].data.username | b64decode {{ "}}" }}'
+              password: '{{ "{{" }} r_keycloak_admin.resources[0].data.password | b64decode {{ "}}" }}'
+              grant_type: password
+            validate_certs: false
+          register: r_kc_token
+          retries: 10
+          delay: 5
+          until: r_kc_token.status == 200
+
+        - name: Get users group ID
+          ansible.builtin.uri:
+            url: https://sso.{{ $.Values.cluster.subdomain }}/admin/realms/sso/groups?search=users&exact=true
+            method: GET
+            headers:
+              Authorization: 'Bearer {{ "{{" }} r_kc_token.json.access_token {{ "}}" }}'
+            validate_certs: false
+          register: r_users_group
+
+        - name: Get tenant user ID from Keycloak
+          ansible.builtin.uri:
+            url: https://sso.{{ $.Values.cluster.subdomain }}/admin/realms/sso/users?username={{ "{{" }} tenant_username {{ "}}" }}&exact=true
+            method: GET
+            headers:
+              Authorization: 'Bearer {{ "{{" }} r_kc_token.json.access_token {{ "}}" }}'
+            validate_certs: false
+          register: r_kc_user
+
+        - name: Add tenant user to users group
+          ansible.builtin.uri:
+            url: https://sso.{{ $.Values.cluster.subdomain }}/admin/realms/sso/users/{{ "{{" }} r_kc_user.json[0].id {{ "}}" }}/groups/{{ "{{" }} r_users_group.json[0].id {{ "}}" }}
+            method: PUT
+            headers:
+              Authorization: 'Bearer {{ "{{" }} r_kc_token.json.access_token {{ "}}" }}'
+              Content-Type: application/json
+            validate_certs: false
+            status_code:
+              - 204
+              - 409
