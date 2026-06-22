@@ -20,6 +20,23 @@ data:
       # others owned entities, nor delete/update shared entities.
       - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
         disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              backstage-community.plugin-rbac:
+                appIcons:
+                  - name: rbacIcon
+                    importName: RbacIcon
+                dynamicRoutes:
+                  - path: /rbac
+                    importName: RbacPage
+                    menuItem:
+                      icon: rbacIcon
+                      text: Administration
+                menuItems:
+                  rbac:
+                    parent: default.admin
+                    icon: rbacIcon
 
       # MCP Server plugins
       - package: 'oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-plugin-mcp-actions-backend:bs_1.45.3__0.1.5'
@@ -117,7 +134,7 @@ data:
           app:
             sidebar:
               search: false
-              settings: true
+              settings: false
           dynamicPlugins:
             frontend:
               default.main-menu-items:
