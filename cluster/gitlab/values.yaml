@@ -47,6 +47,8 @@ gitlab:
           url: https://github.com/openshift-dev-days/parasol-insurance-manifests.git
         - name: devfiles
           url: https://github.com/openshift-dev-days/devfiles.git
+        - name: parasol-catalog-entities
+          url: https://github.com/openshift-dev-days/parasol-catalog-entities.git
       users:
         - id: dev1
         - id: dev2

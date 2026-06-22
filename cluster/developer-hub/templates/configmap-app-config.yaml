@@ -136,11 +136,6 @@ data:
     catalog:
       rules:
         - allow: [Component, System, API, Resource, Location, Template, Domain]
-      locations:
-        - type: url
-          target: https://github.com/openshift-dev-days/parasol-catalog-entities/blob/main/catalog-info.yaml
-          rules:
-            - allow: [Component, System, API, Resource, Location, Template, Domain, User, Group]
       providers:
         keycloakOrg:
           default:
