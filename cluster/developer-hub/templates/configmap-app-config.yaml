@@ -83,6 +83,10 @@ data:
         admin:
           users:
             - name: user:default/admin
+      pluginsWithPermission:
+      - catalog
+      - scaffolder
+      - permission
 
     backend:
       baseUrl: https://{{ .Values.backstage.host }}
