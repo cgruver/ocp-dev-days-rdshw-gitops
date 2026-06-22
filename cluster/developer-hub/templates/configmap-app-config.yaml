@@ -142,6 +142,7 @@ data:
           default:
             baseUrl: https://{{ .Values.keycloak.host }}
             realm: {{ .Values.keycloak.realm }}
+            loginRealm: {{ .Values.keycloak.realm }}
             clientId: ${KEYCLOAK_PLUGIN_CLIENT_ID}
             clientSecret: ${KEYCLOAK_PLUGIN_CLIENT_SECRET}
             schedule:
