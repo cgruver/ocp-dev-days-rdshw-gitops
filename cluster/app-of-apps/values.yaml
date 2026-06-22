@@ -40,6 +40,8 @@ vault:
       adminPassword: ""
     kafka:
       userPassword: ""
+    rhdh:
+      argocdPassword: ""
 
 externalSecrets:
   name: external-secrets

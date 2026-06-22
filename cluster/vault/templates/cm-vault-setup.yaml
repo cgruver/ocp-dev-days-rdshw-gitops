@@ -124,7 +124,7 @@ data:
 {{- if and $.Values.secrets.litellm.apiUrl $.Values.secrets.litellm.apiKey }}
             - 'vault kv put kv/secrets/litellm/credentials base_url={{ $.Values.secrets.litellm.apiUrl }} api_key={{ $.Values.secrets.litellm.apiKey }}'
 {{- end }}
-            - 'vault kv put kv/secrets/rhdh/argocd-password value={{ $.Values.secrets.common.password }}'
+            - 'vault kv put kv/secrets/rhdh/argocd-password value={{ $.Values.secrets.rhdh.argocdPassword }}'
             - 'vault kv put kv/secrets/rhdh/backend-secret value={{ "{{" }} lookup("ansible.builtin.password", "/dev/null", chars=["ascii_letters", "digits"], length=32) {{ "}}" }}'
             - 'vault kv put kv/secrets/rhdh/mcp-secret value={{ "{{" }} lookup("ansible.builtin.password", "/dev/null", chars=["ascii_letters", "digits"], length=32) {{ "}}" }}'
             - 'vault kv put kv/secrets/keycloak/client-secret clientId={{ $.Values.secrets.keycloak.clientId }} pluginClientId={{ $.Values.secrets.keycloak.pluginClientId }} clientSecret={{ $.Values.secrets.keycloak.clientSecret }}'

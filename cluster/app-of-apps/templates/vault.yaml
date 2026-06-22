@@ -35,6 +35,8 @@ spec:
             adminPassword: {{ .Values.vault.secrets.sonarqube.adminPassword | quote }}
           kafka:
             userPassword: {{ .Values.vault.secrets.kafka.userPassword | quote }}
+          rhdh:
+            argocdPassword: {{ .Values.vault.secrets.rhdh.argocdPassword | quote }}
           keycloak:
             clientId: {{ .Values.vault.secrets.keycloak.clientId | quote }}
             clientSecret: {{ .Values.vault.secrets.keycloak.clientSecret | quote }}
