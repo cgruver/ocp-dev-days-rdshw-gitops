@@ -30,6 +30,8 @@ spec:
         - name: sonarqube-secret
     extraFiles:
       mountPath: /opt/app-root/src
+      configMaps:
+        - name: rbac-policy
     route:
       enabled: true
   deployment:
