@@ -141,6 +141,7 @@ data:
                 menuItems:
                   default.create:
                     title: ''
+                  # This is absolutely necessary to show the Administration menu item in the sidebar
                   default.admin:
                     title: Administration
                     textKey: menuItem.administration
