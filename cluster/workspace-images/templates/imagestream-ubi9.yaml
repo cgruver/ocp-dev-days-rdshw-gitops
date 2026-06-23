@@ -2,7 +2,6 @@ apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
   name: ubi9
-  namespace: imported-images
   labels:
     {{- include "cekit-builder.labels" . | nindent 4 }}
   annotations:
@@ -14,10 +13,10 @@ spec:
   - annotations: null
     from:
       kind: DockerImage
-      name: registry.access.redhat.com/ubi9:9.6
+      name: registry.access.redhat.com/ubi9:9.8
     generation: 1
     importPolicy:
       importMode: Legacy
-    name: "9.6"
+    name: "9.8"
     referencePolicy:
       type: Source

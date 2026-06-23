@@ -2,15 +2,14 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: cekit-builder-user-namespaces
-  namespace: cekit-images
   labels:
     {{- include "cekit-builder.labels" . | nindent 4 }}
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "1"
 subjects:
   - kind: ServiceAccount
     name: cekit-builder
-    namespace: cekit-images
+    namespace: {{ $.Values.namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

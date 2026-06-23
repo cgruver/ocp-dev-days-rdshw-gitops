@@ -2,12 +2,11 @@ apiVersion: tekton.dev/v1
 kind: Task
 metadata:
   name: cekit-class-builder
-  namespace: cekit-images
   labels:
     {{- include "cekit-builder.labels" . | nindent 4 }}
   annotations:
     io.kubernetes.cri-o.Devices: '/dev/fuse,/dev/net/tun'
-    argocd.argoproj.io/sync-wave: "9"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   params:
   - name: registry

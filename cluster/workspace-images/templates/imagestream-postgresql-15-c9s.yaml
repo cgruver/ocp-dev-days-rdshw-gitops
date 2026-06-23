@@ -2,7 +2,6 @@ apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
   name: postgresql-15-c9s
-  namespace: imported-images
   labels:
     {{- include "cekit-builder.labels" . | nindent 4 }}
   annotations:

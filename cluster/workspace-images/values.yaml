@@ -3,9 +3,9 @@ nameOverride: ""
 
 # Git repository configuration
 git:
-  uri: "https://github.com/cgruver/opinionated-dev-spaces.git"
+  uri: "https://github.com/openshift-dev-days/workspace-images.git"
   ref: "main"
-  contextDir: "managed-images/cekit-builder-image"
+  contextDir: "cekit-builder-image"
 
 # Image registry configuration
 registry:
