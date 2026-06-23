@@ -31,6 +31,9 @@ data:
     g, group:default/users, role:default/developer
     g, group:default/users, role:default/scaffolder_execute
     g, group:default/users, role:default/plugins
+    g, group:default/admins, role:default/developer
+    g, group:default/admins, role:default/scaffolder_execute
+    g, group:default/admins, role:default/plugins
   rbac-conditional-policies.yaml: |
     ---
     result: CONDITIONAL
