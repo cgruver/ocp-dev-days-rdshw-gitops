@@ -23,6 +23,8 @@ spec:
         - values/values-{{ $env }}.yaml
       valuesObject:
         namespace: {{ $prefix }}-{{ $env }}
+        tenant:
+          username: {{ $.Values.tenant.username }}
         registry:
           host: {{ $.Values.registry.host }}
           organization: {{ $.Values.tenant.username }}
