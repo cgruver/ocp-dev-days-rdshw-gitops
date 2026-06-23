@@ -28,10 +28,17 @@ data:
     p, role:default/plugins, lightspeed.chat.read, read, allow
     p, role:default/plugins, lightspeed.chat.create, create, allow
     p, role:default/plugins, lightspeed.chat.delete, delete, allow
+    p, role:default/admin, catalog.entity.read, read, allow
+    p, role:default/admin, catalog.entity.create, create, allow
+    p, role:default/admin, catalog.entity.delete, delete, allow
+    p, role:default/admin, catalog.entity.refresh, update, allow
+    p, role:default/admin, catalog.location.read, read, allow
+    p, role:default/admin, catalog.location.create, create, allow
+    p, role:default/admin, catalog.location.delete, delete, allow
     g, group:default/users, role:default/developer
     g, group:default/users, role:default/scaffolder_execute
     g, group:default/users, role:default/plugins
-    g, group:default/admins, role:default/developer
+    g, group:default/admins, role:default/admin
     g, group:default/admins, role:default/scaffolder_execute
     g, group:default/admins, role:default/plugins
   rbac-conditional-policies.yaml: |
