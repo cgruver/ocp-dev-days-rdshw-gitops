@@ -6,6 +6,11 @@ spec:
     namespace: {{ .Values.workspaceImages.namespace }}
     server: https://kubernetes.default.svc
   project: default
+  ignoreDifferences:
+  - group: image.openshift.io
+    kind: ImageStream
+    jqPathExpressions:
+      - .spec.tags[] | select(.generation != null) | .generation
   source:
     path: cluster/workspace-images
     repoURL: {{ .Values.gitops.repoURL }}
