@@ -1,4 +1,4 @@
-# Default values for cekit-builder chart
+# Default values for workspace-images chart
 nameOverride: ""
 
 # Git repository configuration

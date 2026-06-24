@@ -3,7 +3,7 @@ kind: SecurityContextConstraints
 metadata:
   name: pipeline-user-namespaces
   labels:
-    {{- include "cekit-builder.labels" . | nindent 4 }}
+    {{- include "workspace-images.labels" . | nindent 4 }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 priority: null

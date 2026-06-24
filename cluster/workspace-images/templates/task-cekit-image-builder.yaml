@@ -3,7 +3,7 @@ kind: Task
 metadata:
   name: cekit-image-builder
   labels:
-    {{- include "cekit-builder.labels" . | nindent 4 }}
+    {{- include "workspace-images.labels" . | nindent 4 }}
   annotations:
     io.kubernetes.cri-o.Devices: '/dev/fuse,/dev/net/tun'
     argocd.argoproj.io/sync-wave: "1"

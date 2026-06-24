@@ -3,7 +3,7 @@ kind: Pipeline
 metadata:
   name: cekit-build-all
   labels:
-    {{- include "cekit-builder.labels" . | nindent 4 }}
+    {{- include "workspace-images.labels" . | nindent 4 }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
