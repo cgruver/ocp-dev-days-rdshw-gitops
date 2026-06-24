@@ -94,6 +94,6 @@ sonarqube:
   name: sonarqube
   namespace: sonarqube
 
-workspace-images:
+workspaceImages:
   name: workspace-images
   namespace: workspace-images
