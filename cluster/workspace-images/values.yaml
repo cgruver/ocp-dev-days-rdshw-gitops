@@ -10,7 +10,7 @@ git:
 # Image registry configuration
 registry:
   hostname: "image-registry.openshift-image-registry.svc:5000"
-  namespace: "cekit-images"
+  namespace: "workspace-images"
   # The builder image will be built and pushed here
   builderImage: "cekit-builder"
   builderTag: "latest"
