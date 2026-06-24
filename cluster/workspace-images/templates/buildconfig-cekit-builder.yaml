@@ -11,7 +11,7 @@ spec:
     git:
       uri: {{ .Values.git.uri }}
       ref: {{ .Values.git.ref }}
-      contextDir: {{ .Values.git.contextDir }}
+    contextDir: {{ .Values.git.contextDir }}
   strategy:
     dockerStrategy:
       dockerfilePath: "./Containerfile"
