@@ -14,10 +14,13 @@ spec:
     contextDir: {{ .Values.git.contextDir }}
   strategy:
     dockerStrategy:
-      dockerfilePath: "./Containerfile"
+      dockerfilePath: Containerfile
   output:
     to:
       kind: DockerImage
       name: {{ .Values.registry.hostname }}/{{ .Values.registry.namespace }}/{{ .Values.registry.builderImage }}:{{ .Values.registry.builderTag }}
   triggers:
     - type: ConfigChange
+  runPolicy: Serial
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
