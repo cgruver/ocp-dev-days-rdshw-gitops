@@ -119,6 +119,6 @@ data:
         "reasoningBlockCollapsed": false,
         "enterBehavior": "send",
         "profileThresholds": {},
-        "hasOpenedModeSelector": true,
+        "hasOpenedModeSelector": true
       }
     }
