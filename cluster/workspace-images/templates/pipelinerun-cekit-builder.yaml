@@ -1,0 +1,15 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: build-all-cekit-
+  labels:
+    {{- include "workspace-images.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  pipelineRef:
+    name: cekit-build-all
+  taskRunTemplate:
+    podTemplate:
+      hostUsers: false
+    serviceAccountName: cekit-builder
