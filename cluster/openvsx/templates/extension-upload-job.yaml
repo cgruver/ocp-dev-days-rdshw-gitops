@@ -12,7 +12,7 @@ metadata:
     argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
 spec:
   ttlSecondsAfterFinished: 600
-  backoffLimit: 3
+  backoffLimit: 10
   template:
     metadata:
       labels:
