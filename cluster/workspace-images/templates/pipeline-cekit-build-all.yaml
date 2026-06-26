@@ -34,7 +34,7 @@ spec:
     - name: registry-path
       value: $(params.registry-path)
     - name: image-class
-      value: developer
+      value: base
     - name: repository
       value: $(params.repository)
     - name: revision
@@ -50,23 +50,7 @@ spec:
     - name: registry-path
       value: $(params.registry-path)
     - name: image-class
-      value: app-product
-    - name: repository
-      value: $(params.repository)
-    - name: revision
-      value: $(params.revision)
-  - name: utility-images
-    runAfter:
-    - base-images
-    taskRef:
-      name: cekit-class-builder
-    params:
-    - name: registry
-      value: $(params.registry)
-    - name: registry-path
-      value: $(params.registry-path)
-    - name: image-class
-      value: utility
+      value: workspace
     - name: repository
       value: $(params.repository)
     - name: revision

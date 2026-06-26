@@ -1,7 +1,7 @@
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: cekit-builder-user-namespaces
+  name: cekit-builder-podman
   labels:
     {{- include "workspace-images.labels" . | nindent 4 }}
   annotations:
@@ -13,4 +13,4 @@ subjects:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: cekit-builder-user-namespaces
+  name: cekit-builder-podman

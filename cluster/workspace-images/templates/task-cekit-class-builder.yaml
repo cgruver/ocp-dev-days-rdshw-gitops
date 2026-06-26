@@ -36,11 +36,8 @@ spec:
           - SETUID
         drop:
           - ALL
-      runAsUser: 1000
-      runAsNonRoot: true
       readOnlyRootFilesystem: false
       allowPrivilegeEscalation: true
-      procMount: Unmasked
   steps:
   - name: clone
     image: {{ .Values.registry.hostname }}/{{ .Values.registry.namespace }}/{{ .Values.registry.builderImage }}:{{ .Values.registry.builderTag }}
