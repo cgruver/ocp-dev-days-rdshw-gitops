@@ -9,8 +9,19 @@ spec:
   ignoreDifferences:
   - group: image.openshift.io
     kind: ImageStream
-    jqPathExpressions:
-      - .spec.tags[] | select(.generation != null) | .generation
+    jsonPointers:
+      - /metadata/annotations
+      - /metadata/labels
+      - /spec/status
+      - /status
+      - /spec/tags/generation
+  - group: tekton.dev
+    kind: Task
+    jsonPointers:
+      - /metadata/annotations
+      - /metadata/labels
+      - /spec/status
+      - /status
   source:
     path: cluster/workspace-images
     repoURL: {{ .Values.gitops.repoURL }}
