@@ -17,8 +17,8 @@ data:
         "currentApiConfigName": "qwen3-235b",
         "apiConfigs": {
           "qwen3-235b": {
-            "openAiBaseUrl": "${LLM_BASE_URL}/v1",
-            "openAiApiKey": "${LLM_API_KEY}",
+            "openAiBaseUrl": "_LLM_BASE_URL_",
+            "openAiApiKey": "_LLM_API_KEY_",
             "openAiModelId": "qwen3-235b",
             "openAiCustomModelInfo": {
               "maxTokens": -1,
