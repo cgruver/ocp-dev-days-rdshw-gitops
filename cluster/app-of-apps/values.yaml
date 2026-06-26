@@ -40,6 +40,8 @@ vault:
       adminPassword: ""
     kafka:
       userPassword: ""
+    rhdh:
+      argocdPassword: ""
 
 externalSecrets:
   name: external-secrets
@@ -97,3 +99,7 @@ sonarqube:
 workspaceImages:
   name: workspace-images
   namespace: workspace-images
+
+developerHub:
+  name: developer-hub
+  namespace: rhdh

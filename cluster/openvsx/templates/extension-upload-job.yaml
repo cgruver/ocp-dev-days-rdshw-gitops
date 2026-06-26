@@ -12,7 +12,7 @@ metadata:
     argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
 spec:
   ttlSecondsAfterFinished: 600
-  backoffLimit: 3
+  backoffLimit: 10
   template:
     metadata:
       labels:
@@ -28,14 +28,16 @@ spec:
             - |
               set -euo pipefail
               /importvsx.sh --init
-              /importvsx.sh -d -f=/config/extension-list.json
+              /importvsx.sh -f=/config/extension-list.json -d
           env:
             - name: OVSX_REGISTRY_URL
               value: "http://open-vsx-server.{{ .Release.Namespace }}.svc:{{ .Values.server.port }}"
             - name: PG_HOST
               value: "open-vsx-pg.{{ .Release.Namespace }}.svc"
             - name: PG_PORT
-              value: {{ .Values.postgresql.port }}
+              value: {{ .Values.postgresql.port | quote }}
+            - name: OVSX_PAT
+              value: "admin_upload_token"
             - name: PG_USER
               valueFrom:
                 secretKeyRef:

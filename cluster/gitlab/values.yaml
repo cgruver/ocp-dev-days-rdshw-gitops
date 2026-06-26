@@ -42,11 +42,15 @@ gitlab:
     - name: parasol
       repo:
         - name: parasol-insurance
-          url: https://github.com/App-Platform-ROI-Summit-Lab/parasol-insurance.git
+          url: https://github.com/openshift-dev-days/parasol-insurance.git
         - name: parasol-insurance-manifests
-          url: https://github.com/App-Platform-ROI-Summit-Lab/parasol-insurance-manifests.git
+          url: https://github.com/openshift-dev-days/parasol-insurance-manifests.git
         - name: devfiles
-          url: https://github.com/App-Platform-ROI-Summit-Lab/devfiles.git
+          url: https://github.com/openshift-dev-days/devfiles.git
+        - name: parasol-catalog-entities
+          url: https://github.com/openshift-dev-days/parasol-catalog-entities.git
+        - name: rhdh-templates
+          url: https://github.com/openshift-dev-days/rhdh-templates.git
       users:
         - id: dev1
         - id: dev2
@@ -58,6 +62,11 @@ gitlab:
       branch: main
       templates:
         - devfile.yaml
+    - group: parasol
+      project: rhdh-templates
+      branch: main
+      templates:
+        - templates/parasol-dev-environment/template.yaml
 postgresql:
   dbUser: gitlab
   dbPassword: passw0rd

@@ -10,4 +10,8 @@ spec:
   image: {{ .image }}:{{ .tag }}
   displayName: {{ .displayName | quote }}
   publisher: {{ .publisher | quote }}
+  grpcPodConfig:
+    extractContent:
+      cacheDir: /tmp/cache
+      catalogDir: /configs
 {{- end }}
