@@ -8,11 +8,13 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   source:
+    type: Git
     git:
       uri: {{ .Values.git.uri }}
       ref: {{ .Values.git.ref }}
     contextDir: {{ .Values.git.contextDir }}
   strategy:
+    type: Docker
     dockerStrategy:
       dockerfilePath: Containerfile
   output:
@@ -24,3 +26,6 @@ spec:
   runPolicy: Serial
   successfulBuildsHistoryLimit: 5
   failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  resources: {}
+  postCommit: {}
