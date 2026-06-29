@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: build-workspace-images
+  labels:
+    {{- include "workspace-images.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  ttlSecondsAfterFinished: 600
+  backoffLimit: 10
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: create-pipeline-run
+          image: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
+          serviceAccountName: cekit-builder
+          command:
+            - /bin/bash
+            - -c
+            - |
+              cat << EOF | oc apply -f -
+              apiVersion: tekton.dev/v1
+              kind: PipelineRun
+              metadata:
+                generateName: build-all-cekit-
+              spec:
+                pipelineRef:
+                  name: cekit-build-all
+                taskRunTemplate:
+                  serviceAccountName: cekit-builder
+              EOF
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
