@@ -40,10 +40,12 @@ spec:
       allowPrivilegeEscalation: true
   steps:      
   - name: clone
+    computeResources: {}
     image: {{ .Values.registry.hostname }}/{{ .Values.registry.namespace }}/{{ .Values.registry.builderImage }}:{{ .Values.registry.builderTag }}
     script: |
       git clone -b $(params.revision) --single-branch $(params.repository) /workspace/source
   - name: build
+    computeResources: {}
     retries: 10
     retryDuration: "60s"
     image: {{ .Values.registry.hostname }}/{{ .Values.registry.namespace }}/{{ .Values.registry.builderImage }}:{{ .Values.registry.builderTag }}
