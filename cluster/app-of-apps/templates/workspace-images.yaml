@@ -20,7 +20,7 @@ spec:
     jsonPointers:
       - /metadata/annotations
       - /metadata/labels
-      - /spec/status
+      - /spec/generation
       - /status
   source:
     path: cluster/workspace-images
