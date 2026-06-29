@@ -17,7 +17,7 @@ spec:
       containers:
         - name: create-pipeline-run
           image: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
-          serviceAccountName: cekit-builder
+          serviceAccountName: pipeline
           command:
             - /bin/bash
             - -c
