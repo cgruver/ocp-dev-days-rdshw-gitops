@@ -22,6 +22,19 @@ spec:
             - /bin/bash
             - -c
             - |
+              count=0
+              limit=60
+              while ! oc get is cekit-builder
+              do
+                echo "Waiting for cekit-builder image build to complete"
+                sleep 10
+                count=$(( ${count} + 1 ))
+                if [[ ${count} -eq ${limit} ]]
+                then
+                  echo "Failed waiting for image build to complete"
+                  exit 1
+                fi
+              done
               cat << EOF | oc create -f -
               apiVersion: tekton.dev/v1
               kind: PipelineRun
