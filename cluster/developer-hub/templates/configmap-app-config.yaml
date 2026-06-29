@@ -168,10 +168,6 @@ data:
               url: https://{{ .Values.argocd.host }}
               username: admin
               password: ${ARGOCD_PASSWORD}
-            - name: cluster-argocd
-              url: https://{{ .Values.argocd.host }}
-              username: admin
-              password: ${ARGOCD_PASSWORD}
 
     jira:
       proxyPath: /jira/api
