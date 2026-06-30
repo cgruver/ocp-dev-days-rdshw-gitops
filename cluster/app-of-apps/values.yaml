@@ -96,6 +96,10 @@ sonarqube:
   name: sonarqube
   namespace: sonarqube
 
+workspaceImages:
+  name: workspace-images
+  namespace: workspace-images
+
 developerHub:
   name: developer-hub
   namespace: rhdh
