@@ -14,12 +14,12 @@ data:
   zoo-code-settings.json: |
     {
       "providerProfiles": {
-        "currentApiConfigName": "qwen3-235b",
+        "currentApiConfigName": "{{ .Values.aiAssistantModel }}",
         "apiConfigs": {
-          "qwen3-235b": {
+          "{{ .Values.aiAssistantModel }}": {
             "openAiBaseUrl": "_LLM_BASE_URL_",
             "openAiApiKey": "_LLM_API_KEY_",
-            "openAiModelId": "qwen3-235b",
+            "openAiModelId": "{{ .Values.aiAssistantModel }}",
             "openAiCustomModelInfo": {
               "maxTokens": -1,
               "contextWindow": 262144,
@@ -30,15 +30,15 @@ data:
             },
             "openAiHeaders": {},
             "apiProvider": "openai",
-            "id": "qwen3-235b"
+            "id": "{{ .Values.aiAssistantModel }}"
           }
         },
         "modeApiConfigs": {
-          "architect": "qwen3-235b",
-          "code": "qwen3-235b",
-          "ask": "qwen3-235b",
-          "debug": "qwen3-235b",
-          "orchestrator": "qwen3-235b"
+          "architect": "{{ .Values.aiAssistantModel }}",
+          "code": "{{ .Values.aiAssistantModel }}",
+          "ask": "{{ .Values.aiAssistantModel }}",
+          "debug": "{{ .Values.aiAssistantModel }}",
+          "orchestrator": "{{ .Values.aiAssistantModel }}"
         },
         "migrations": {
           "rateLimitSecondsMigrated": true,
@@ -112,7 +112,7 @@ data:
         "language": "en",
         "telemetrySetting": "unset",
         "mcpEnabled": true,
-        "mode": "architect",
+        "mode": "code",
         "customModes": [],
         "customSupportPrompts": {},
         "includeTaskHistoryInEnhance": true,
