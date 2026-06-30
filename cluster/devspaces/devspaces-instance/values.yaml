@@ -3,6 +3,8 @@ fullnameOverride: ""
 
 namespace: ""
 
+aiAssistantModel: qwen3-235b
+
 devEnvironments:
   startTimeoutSeconds: 300
   secondsOfRunBeforeIdling: -1
