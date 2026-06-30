@@ -6,6 +6,8 @@ kind: Application
 metadata:
   name: {{ $prefix }}-{{ $env }}
   namespace: {{ $.Values.argocd.namespace }}
+  labels:
+    app.kubernetes.io/instance: {{ $prefix }}-parasol-insurance
   annotations:
     argocd.argoproj.io/sync-wave: "0"
   # No finalizer — see comment in app-build.yaml
