@@ -37,6 +37,8 @@ spec:
   deployment:
     patch:
       spec:
+        monitoring:
+          enabled: true
         replicas: 1
         template:
           spec:
