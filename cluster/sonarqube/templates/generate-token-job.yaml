@@ -54,6 +54,8 @@ spec:
           command: ["/bin/bash", "-c"]
           args:
             - |
+              set -euo pipefail
+
               SONAR_URL="http://sonarqube:{{ .Values.sonarqube.port }}"
               SONAR_AUTH="admin:${SONARQUBE_ADMIN_PASSWORD}"
               TOKEN_NAME="rhdh-integration"
@@ -96,4 +98,4 @@ spec:
               oc exec vault-0 -n "${VAULT_NAMESPACE}" -- \
                 sh -c "VAULT_TOKEN='${VAULT_TOKEN}' vault kv put kv/secrets/sonarqube/token value='${TOKEN}'"
 
-              echo "SonarQube token generated and stored in Vault"
+              echo "SonarQube token generated and stored in Vault successfully"
