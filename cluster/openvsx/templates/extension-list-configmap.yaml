@@ -9,6 +9,6 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
 data:
-  extension-list.yaml: |
-    {{- .Files.Get "files/extension-list.yaml" | nindent 4 }}
+  extension-list.json: |
+    {{- .Files.Get "files/extension-list.json" | nindent 4 }}
 {{- end }}

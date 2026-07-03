@@ -19,3 +19,11 @@ secrets:
     userPassword: ""
   sonarqube:
     adminPassword: ""
+  keycloak:
+    clientId: backstage
+    clientSecret: ""
+    pluginClientId: backstage-plugin
+    pluginClientSecret: ""
+  rhdh:
+    argocdPassword: ""
+    postgresqlPassword: ""

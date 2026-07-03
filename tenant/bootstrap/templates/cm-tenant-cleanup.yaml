@@ -91,3 +91,38 @@ data:
             namespace: "{{ "{{" }} vault_namespace {{ "}}" }}"
             pod: "{{ "{{" }} vault_pod {{ "}}" }}"
             command: 'vault kv delete kv/secrets/tenants/{{ "{{" }} tenant_username {{ "}}" }}/quay/auth'
+
+        - name: Find bootstrap repos in parasol group
+          ansible.builtin.uri:
+            url: https://{{ "{{" }} gitlab_host {{ "}}" }}/api/v4/projects?search={{ "{{" }} tenant_username {{ "}}" }}-&search_namespaces=true&per_page=100
+            method: GET
+            headers:
+              PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
+            validate_certs: false
+          register: r_bootstrap_repos
+
+        - name: Delete bootstrap repos owned by parasol group
+          ansible.builtin.uri:
+            url: https://{{ "{{" }} gitlab_host {{ "}}" }}/api/v4/projects/{{ "{{" }} item.id {{ "}}" }}
+            method: DELETE
+            headers:
+              PRIVATE-TOKEN: '{{ "{{" }} root_token {{ "}}" }}'
+            validate_certs: false
+            status_code:
+              - 202
+              - 404
+          loop: >-
+            {{ "{{" }} r_bootstrap_repos.json | selectattr('namespace.path', 'equalto', 'parasol') | selectattr('name', 'contains', tenant_username) | list {{ "}}" }}
+          loop_control:
+            label: "{{ "{{" }} item.path_with_namespace {{ "}}" }}"
+
+        - name: Delete dev environment ArgoCD bootstrap apps
+          kubernetes.core.k8s:
+            api_version: argoproj.io/v1alpha1
+            kind: Application
+            namespace: openshift-gitops
+            name: "{{ "{{" }} item {{ "}}" }}"
+            state: absent
+          loop: >-
+            {{ "{{" }} lookup('kubernetes.core.k8s', api_version='argoproj.io/v1alpha1', kind='Application', namespace='openshift-gitops') | selectattr('metadata.name', 'contains', tenant_username) | selectattr('metadata.name', 'contains', 'bootstrap') | map(attribute='metadata.name') | list {{ "}}" }}
+          ignore_errors: true
