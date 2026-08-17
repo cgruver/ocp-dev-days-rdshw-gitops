@@ -2,8 +2,8 @@
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: "{{ include "nexus-operator.name" . }}-operatorgroup"
-  namespace: {{ include "nexus-operator.namespace" . }}
+  name: "{{ include "nexus.name" . }}-operatorgroup"
+  namespace: {{ include "nexus.namespace" . }}
   annotations:
     {{- include "nexus-operatorgroup.argocd-syncwave" . | nindent 4 }}
 spec: {}
@@ -11,10 +11,10 @@ spec: {}
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: {{ include "nexus-operator.name" . }}-operator
-  namespace: {{ include "nexus-operator.namespace" . }}
+  name: {{ include "nexus.name" . }}-operator
+  namespace: {{ include "nexus.namespace" . }}
   annotations:
-    {{- include "nexus-operator.argocd-syncwave" . | nindent 4 }}
+    {{- include "nexus.argocd-syncwave" . | nindent 4 }}
 spec:
   channel: {{ .Values.subscription.channel }}
   installPlanApproval: {{ .Values.subscription.installPlanApproval }}

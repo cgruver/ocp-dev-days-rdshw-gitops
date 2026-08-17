@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: nexus-installplan-approve
   annotations:
-    {{- include "nexus-operator.argocd-syncwave" . | nindent 4 }}
+    {{- include "nexus.argocd-syncwave" . | nindent 4 }}
 spec:
   # ttlSecondsAfterFinished: 1200
   backoffLimit: 5

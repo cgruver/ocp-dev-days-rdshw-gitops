@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "nexus-operator.name" -}}
+{{- define "nexus.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "nexus-operator.fullname" -}}
+{{- define "nexus.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "nexus-operator.chart" -}}
+{{- define "nexus.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "nexus-operator.labels" -}}
-helm.sh/chart: {{ include "nexus-operator.chart" . }}
-{{ include "nexus-operator.selectorLabels" . }}
+{{- define "nexus.labels" -}}
+helm.sh/chart: {{ include "nexus.chart" . }}
+{{ include "nexus.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,15 +45,15 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "nexus-operator.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "nexus-operator.name" . }}
+{{- define "nexus.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "nexus.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Determine target namespace
 */}}
-{{- define "nexus-operator.namespace" -}}
+{{- define "nexus.namespace" -}}
 {{- if .Values.namespace }}
 {{- printf "%s" .Values.namespace }}
 {{- else }}
@@ -64,7 +64,7 @@ Determine target namespace
 {{/*
 ArgoCD Syncwave for operator subscription
 */}}
-{{- define "nexus-operator.argocd-syncwave" -}}
+{{- define "nexus.argocd-syncwave" -}}
 {{- if .Values.argocd }}
 {{- if and (.Values.argocd.operator.syncwave) (.Values.argocd.enabled) -}}
 argocd.argoproj.io/sync-wave: "{{ .Values.argocd.operator.syncwave }}"
