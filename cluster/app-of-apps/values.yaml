@@ -79,6 +79,10 @@ devspaces:
   name: devspaces
   namespace: openshift-devspaces
 
+nexus:
+  name: devspaces
+  namespace: nexus
+
 amqStreams:
   enabled: true
   name: amq-streams

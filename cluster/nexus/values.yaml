@@ -1,0 +1,19 @@
+nameOverride: "nexus"
+namespace: "nexus"
+fullnameOverride: ""
+
+devspaces:
+  subscription:
+    channel: stable
+    installPlanApproval: Manual
+    name: nexus-repository-ha-operator-certified
+    source: certified-operators
+    startingCSV: "nexus-repository-ha-operator-certified.v3.90.3-1"
+    sourceNamespace: openshift-marketplace
+
+argocd:
+  enabled: true
+  operatorgroup:
+    syncwave: "-3"
+  operator:
+    syncwave: "-2"
