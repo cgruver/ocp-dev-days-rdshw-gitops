@@ -80,7 +80,7 @@ devspaces:
   namespace: openshift-devspaces
 
 nexus:
-  name: devspaces
+  name: nexus
   namespace: nexus
 
 amqStreams:
