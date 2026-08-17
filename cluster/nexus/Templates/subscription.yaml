@@ -16,11 +16,11 @@ metadata:
   annotations:
     {{- include "nexus.argocd-syncwave" . | nindent 4 }}
 spec:
-  channel: {{ .Values.subscription.channel }}
-  installPlanApproval: {{ .Values.subscription.installPlanApproval }}
-  name: {{ .Values.subscription.name }}
-  source: {{ .Values.subscription.source }}
-  sourceNamespace: {{ .Values.subscription.sourceNamespace }}
-  {{- if .Values.subscription.startingCSV }}
-  startingCSV: {{ .Values.subscription.startingCSV }}
+  channel: {{ .Values.nexus.subscription.channel }}
+  installPlanApproval: {{ .Values.nexus.subscription.installPlanApproval }}
+  name: {{ .Values.nexus.subscription.name }}
+  source: {{ .Values.nexus.subscription.source }}
+  sourceNamespace: {{ .Values.nexus.subscription.sourceNamespace }}
+  {{- if .Values.nexus.subscription.startingCSV }}
+  startingCSV: {{ .Values.nexus.subscription.startingCSV }}
   {{- end }}

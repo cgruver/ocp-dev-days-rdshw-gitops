@@ -2,7 +2,7 @@ nameOverride: "nexus"
 namespace: "nexus"
 fullnameOverride: ""
 
-devspaces:
+nexus:
   subscription:
     channel: stable
     installPlanApproval: Manual
