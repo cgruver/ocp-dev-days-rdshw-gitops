@@ -5,12 +5,11 @@ metadata:
   annotations:
     {{- include "nexus.argocd-syncwave" . | nindent 4 }}
 spec:
-  # ttlSecondsAfterFinished: 1200
   backoffLimit: 5
   template:
     spec:
       restartPolicy: OnFailure
-      serviceAccountName: nexus-installplan-approver
+      serviceAccountName: nexus-installer
       containers:
       - name: nexus-installplan-approver
         image: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
