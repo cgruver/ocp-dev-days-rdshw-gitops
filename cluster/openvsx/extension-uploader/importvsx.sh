@@ -74,14 +74,17 @@ function getCompatibleRelease() {
   local index=0
   local offset=0
   local num_releases=0
+  local total_available=0
 
   while [[ ${num_releases} == 0 ]]
   do
     local ext_data=$(curl -X GET "https://open-vsx.org/api/v2/-/query?extensionId=${ext_id}&includeAllVersions=true&targetPlatform=${ARCH}&size=${QUERY_RESULT_SIZE}&offset=${offset}" -H 'accept: application/json')
+    total_available=$(echo "${ext_data}" | jq -r '.totalSize')
     results=$(echo "${ext_data}" | jq -r '.totalSize')
     if [[ ${results} -eq 0 ]]
     then
       ext_data=$(curl -X GET "https://open-vsx.org/api/v2/-/query?extensionId=${ext_id}&includeAllVersions=true&targetPlatform=universal&size=${QUERY_RESULT_SIZE}&offset=${offset}" -H 'accept: application/json')
+      total_available=$(echo "${ext_data}" | jq -r '.totalSize')
       results=$(echo "${ext_data}" | jq -r '.totalSize')
       if [[ ${results} -eq 0 ]]
       then
@@ -89,6 +92,14 @@ function getCompatibleRelease() {
         return 1
       fi
     fi
+
+    # Check if we've exhausted all results without finding stable releases
+    if [[ ${offset} -ge ${total_available} ]]
+    then
+      echo "no-stable-release-found"
+      return 1
+    fi
+
     ext_data=$(echo "${ext_data}" | jq -c '.extensions[] | select(.preRelease==false)')
     num_releases=$(echo "${ext_data}" | jq -c -s '. | length')
     offset=$(( ${offset} + ${QUERY_RESULT_SIZE} ))
