@@ -31,9 +31,11 @@ spec:
         - --metrics-bind-address=:8443
         - --secure-metrics-server
         - --cert-dir=/etc/tls/private
+        - --dataverse-exporter-image={{ .Values.images.dataverseExporter }}
         - --postgres-image={{ .Values.images.postgres }}
         - --service-image={{ .Values.images.serviceApi }}
         - --console-image={{ .Values.images.consolePlugin }}
+        - --rhokp-image={{ .Values.images.rhokp }}
         command:
         - /manager
         env:
