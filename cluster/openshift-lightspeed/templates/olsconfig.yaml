@@ -1,0 +1,27 @@
+apiVersion: ols.openshift.io/v1alpha1
+kind: OLSConfig
+metadata:
+  name: cluster
+  namespace: {{ .Values.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  llm:
+    providers:
+      - credentialsSecretRef:
+          name: llm-credentials
+        models:
+          - name: {{ .Values.llm.model }}
+        name: {{ .Values.llm.provider }}
+        type: {{ .Values.llm.provider }}
+        url: {{ .Values.llm.apiUrl | quote }}
+  ols:
+    logLevel: INFO
+    defaultModel: {{ .Values.llm.model }}
+    defaultProvider: {{ .Values.llm.provider }}
+    conversationCache:
+      type: postgres
+      postgres:
+        sharedBuffers: 256MB
+        maxConnections: 2000

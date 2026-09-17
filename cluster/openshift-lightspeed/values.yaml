@@ -1,0 +1,16 @@
+namespace: openshift-lightspeed
+
+images:
+  operator: registry.redhat.io/openshift-lightspeed/lightspeed-rhel9-operator@sha256:71abcf4b043e20096a670badf767f4d99e30a34fc21326750621392d3f10004e
+  serviceApi: registry.redhat.io/openshift-lightspeed/lightspeed-service-api-rhel9@sha256:958693ae1cdd0c1549d8ad9d618643da6cfb73196742723c3d78f7f023a70502
+  consolePlugin: registry.redhat.io/openshift-lightspeed/lightspeed-console-plugin-rhel9@sha256:b935868e60f03e5d16849caaf1789feaf2da2ab1358d32d702cfe0708124e53d
+  postgres: registry.redhat.io/rhel9/postgresql-16@sha256:42f385ac3c9b8913426da7c57e70bc6617cd237aaf697c667f6385a8c0b0118b
+
+llm:
+  apiUrl: ""
+  provider: openai
+  model: qwen3-235b
+
+vault:
+  secretStore: vault-secret-store
+  secretPath: secrets/litellm/credentials
