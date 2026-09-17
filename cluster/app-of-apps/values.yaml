@@ -96,6 +96,9 @@ workspaceImages:
   name: workspace-images
   namespace: workspace-images
 
+clusterObservability:
+  enabled: true
+
 openshiftLightspeed:
   enabled: true
   name: openshift-lightspeed
