@@ -35,6 +35,7 @@ spec:
         - --postgres-image={{ .Values.images.postgres }}
         - --service-image={{ .Values.images.serviceApi }}
         - --console-image={{ .Values.images.consolePlugin }}
+        - --openshift-mcp-server-image={{ .Values.images.mcpServer }}
         - --rhokp-image={{ .Values.images.rhokp }}
         command:
         - /manager
