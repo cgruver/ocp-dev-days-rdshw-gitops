@@ -57,10 +57,22 @@ spec:
               value: https://console-openshift-console.{{ .Values.cluster.appsDomain }}/topology/ns/{{ include "module5.namespace" . }}?view=graph
             {{- end }}
             - name: VSCODE_TRUSTED_EXTENSIONS
-              value: "redhat.mta-vscode-extension,redhat.mta-core,redhat.mta-java,redhat.mta-csharp,redhat.mta-go,redhat.mta-javascript"
-            # Open the repo .code-workspace so extensions.recommendations / settings apply
+              value: "redhat.mta-vscode-extension,redhat.mta-core,redhat.mta-java,redhat.mta-csharp,redhat.mta-go,redhat.mta-javascript,redhat.java"
+            # CheCluster openVSXURL is not injected into workspaces; without this, che-code
+            # keeps product.json pointed at public open-vsx.org and pulls redhat.java universal
+            # (Java 25) as an MTA dependency instead of our pinned linux-x64 build.
+            {{- if .Values.cluster.appsDomain }}
+            - name: OPENVSX_REGISTRY_URL
+              value: https://open-vsx-server-che-openvsx.{{ .Values.cluster.appsDomain }}
+            {{- end }}
+            # Same pattern as Module 2: open repo .code-workspace for settings + extension recommendations
             - name: VSCODE_DEFAULT_WORKSPACE
               value: "/projects/{{ .Values.devworkspace.projectName }}/{{ .Values.devworkspace.projectName }}.code-workspace"
+            # dls-mta image ships JDK 21; point env at JDK (not the default JRE symlink)
+            - name: JAVA_HOME
+              value: /usr/lib/jvm/java-21-openjdk
+            - name: JDK_HOME
+              value: /usr/lib/jvm/java-21-openjdk
             - name: HOST_USERS
               value: 'false'
             - name: OCP_USER
