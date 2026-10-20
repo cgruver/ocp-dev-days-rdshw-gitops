@@ -1,5 +1,6 @@
 gitops:
   repoURL: https://github.com/rhpds/ocp-dev-days-rdshw-gitops.git
+  # repoURL: https://github.com/redhat-tssc-tmm/ocp-dev-days-rdshw-gitops.git
   targetRevision: main
 
 argocd:
@@ -12,8 +13,8 @@ catalogSource:
   enabled: true
   name: redhat-operators-snapshot
   namespace: openshift-marketplace
-  image: quay.io/gpte-devops-automation/olm_snapshot_redhat_catalog
-  tag: v4.20_2026_02_11
+  image: quay.io/rhpds/olm_snapshot_redhat_catalog
+  tag: v4.20_2026_10_12
   displayName: "Red Hat Operators (Snapshot)"
   publisher: "Red Hat Demo Platform"
 
@@ -42,6 +43,11 @@ vault:
       userPassword: ""
     rhdh:
       argocdPassword: ""
+    rhacs:
+      clientId: rhacs
+      clientSecret: "00ifaFXkWfrNZwrqvzYZwyBhjkEWBzA6"
+    tpa:
+      clientSecret: "SuTQThQk-68Lu-d7U1-R0co-ze2DBZ9EDPxP"
 
 externalSecrets:
   name: external-secrets
@@ -99,6 +105,39 @@ workspaceImages:
 developerHub:
   name: developer-hub
   namespace: rhdh
+
+rhacs:
+  enabled: true
+  name: rhacs
+  namespace: rhacs
+  operatorNamespace: rhacs-operator
+  clusterName: local-secured-cluster
+
+rhtas:
+  enabled: true
+  name: rhtas
+  namespace: trusted-artifact-signer
+  instance: securesign
+  rootCert:
+    email: admin@rhdemo.com
+    org: Parasol
+
+tpa:
+  enabled: true
+  name: tpa
+  namespace: trusted-profile-analyzer
+  rhdaNamespace: rhda-backend
+  chartVersion: "3.1.1"
+  images:
+    dbMonitor: quay.io/tssc_demos/tpa-db-monitor:latest
+    rhdaBackend: quay.io/tssc_demos/trustify-dependency-analytics:v3.1.0
+    rhdaInitImage: registry.redhat.io/ubi9/openjdk-21-runtime:1.23
+    postgresql: registry.redhat.io/rhel10/postgresql-18
+    dataset: registry.redhat.io/ubi9/ubi
+
+policyController:
+  name: policy-controller
+  namespace: policy-controller-operator
 
 module3:
   enabled: true
